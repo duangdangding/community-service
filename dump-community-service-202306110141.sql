@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: community-service
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	5.7.35
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,12 +23,19 @@ DROP TABLE IF EXISTS `communityseniorgroup`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `communityseniorgroup` (
-  `olderlD` int NOT NULL AUTO_INCREMENT COMMENT '老年信息ID',
+  `olderlD` int(11) NOT NULL AUTO_INCREMENT COMMENT '老年信息ID',
   `createtime` datetime DEFAULT NULL COMMENT '添加时间',
   `title` varchar(100) DEFAULT NULL COMMENT '题目',
   `contact` varchar(100) DEFAULT NULL COMMENT '内容',
+  `building` varchar(100) DEFAULT NULL COMMENT '居住楼',
+  `houseNo` varchar(100) DEFAULT NULL COMMENT '门牌号',
+  `emergency` varchar(100) DEFAULT NULL COMMENT '紧急联系人电话',
+  `username` varchar(100) DEFAULT NULL COMMENT '姓名',
+  `sex` varchar(100) DEFAULT NULL COMMENT '性别',
+  `age` int(11) DEFAULT NULL COMMENT '年龄',
+  `lieBed` varchar(100) DEFAULT NULL COMMENT '是否卧床',
   PRIMARY KEY (`olderlD`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='社区老年团表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='社区老年团表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +44,7 @@ CREATE TABLE `communityseniorgroup` (
 
 LOCK TABLES `communityseniorgroup` WRITE;
 /*!40000 ALTER TABLE `communityseniorgroup` DISABLE KEYS */;
+INSERT INTO `communityseniorgroup` VALUES (1,NULL,NULL,NULL,'#3','301','q123','啊额','女',11,'未卧床'),(2,NULL,NULL,NULL,'#1','301','q123','俺是个','女',11,'已卧床');
 /*!40000 ALTER TABLE `communityseniorgroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -48,12 +56,15 @@ DROP TABLE IF EXISTS `convenienceinformation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `convenienceinformation` (
-  `convenientID` int NOT NULL COMMENT '便民信息ID',
+  `convenientID` int(11) NOT NULL AUTO_INCREMENT COMMENT '便民信息ID',
   `notice` varchar(100) DEFAULT NULL COMMENT '社区公告',
   `activity` varchar(100) DEFAULT NULL COMMENT '社区活动',
   `news` varchar(100) DEFAULT NULL COMMENT '系统信息',
+  `title` varchar(100) DEFAULT NULL,
+  `major` varchar(100) DEFAULT NULL,
+  `subject` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`convenientID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='便民信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='便民信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,6 +73,7 @@ CREATE TABLE `convenienceinformation` (
 
 LOCK TABLES `convenienceinformation` WRITE;
 /*!40000 ALTER TABLE `convenienceinformation` DISABLE KEYS */;
+INSERT INTO `convenienceinformation` VALUES (2,NULL,NULL,NULL,' 1234','社区公告','已审核'),(3,NULL,NULL,NULL,' 1231','社区公告','已审核');
 /*!40000 ALTER TABLE `convenienceinformation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -73,12 +85,13 @@ DROP TABLE IF EXISTS `eventprocessing`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eventprocessing` (
-  `eventID` int NOT NULL AUTO_INCREMENT COMMENT '事件ID',
+  `eventID` int(11) NOT NULL AUTO_INCREMENT COMMENT '事件ID',
   `createtime` datetime DEFAULT NULL COMMENT '添加时间',
   `contact` varchar(100) DEFAULT NULL COMMENT '内容',
   `progress` varchar(100) DEFAULT NULL COMMENT '处理进度',
+  `eventType` varchar(100) DEFAULT NULL COMMENT '事件类型',
   PRIMARY KEY (`eventID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='事件处理表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='事件处理表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,6 +100,7 @@ CREATE TABLE `eventprocessing` (
 
 LOCK TABLES `eventprocessing` WRITE;
 /*!40000 ALTER TABLE `eventprocessing` DISABLE KEYS */;
+INSERT INTO `eventprocessing` VALUES (1,'2023-06-10 22:38:36',' 123','处理中','非紧急事件'),(2,'2023-06-10 22:40:43',' 36264','新发布',NULL),(3,'2023-06-10 22:45:29',' 123','新发布','紧急事件');
 /*!40000 ALTER TABLE `eventprocessing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,15 +112,15 @@ DROP TABLE IF EXISTS `serviceplace`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `serviceplace` (
-  `serviceplaceID` int NOT NULL AUTO_INCREMENT COMMENT '场所ID',
+  `serviceplaceID` int(11) NOT NULL AUTO_INCREMENT COMMENT '场所ID',
   `serviceplaceName` varchar(30) DEFAULT NULL COMMENT '场所名称',
   `erviceplacetype` varchar(10) DEFAULT NULL COMMENT '场所类别',
   `placeadder` varchar(30) DEFAULT NULL COMMENT '场所地址',
-  `number` int DEFAULT NULL COMMENT '从业人员数量',
+  `number` int(11) DEFAULT NULL COMMENT '从业人员数量',
   `bossname` varchar(100) DEFAULT NULL COMMENT '经营者',
   `phone` varchar(11) DEFAULT NULL COMMENT '联系电话',
   PRIMARY KEY (`serviceplaceID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='服务场所表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='服务场所表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,6 +129,7 @@ CREATE TABLE `serviceplace` (
 
 LOCK TABLES `serviceplace` WRITE;
 /*!40000 ALTER TABLE `serviceplace` DISABLE KEYS */;
+INSERT INTO `serviceplace` VALUES (1,'啊手动阀士大夫',NULL,'案说法111',11,' 阿斯顿','11111111111'),(2,'123',NULL,'1231',11,'十大是','11111111111'),(3,'123123',NULL,'123123',12,'撒发射','21241616136');
 /*!40000 ALTER TABLE `serviceplace` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -126,16 +141,16 @@ DROP TABLE IF EXISTS `tenement`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tenement` (
-  `residentID` int NOT NULL COMMENT '住户ID',
-  `residentName` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '住户姓名',
+  `residentID` int(11) NOT NULL COMMENT '住户ID',
+  `residentName` varchar(8) NOT NULL COMMENT '住户姓名',
   `sex` varchar(2) DEFAULT NULL COMMENT '性别',
-  `age` int DEFAULT NULL COMMENT '年龄',
+  `age` int(11) DEFAULT NULL COMMENT '年龄',
   `addr` varchar(45) DEFAULT NULL COMMENT '家庭地址',
   `phone` varchar(11) DEFAULT NULL COMMENT '联系方式',
   `number` varchar(18) DEFAULT NULL COMMENT '身份证号',
   `workunit` varchar(20) DEFAULT NULL COMMENT '工作单位',
   PRIMARY KEY (`residentID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='住户';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='住户';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,12 +170,12 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `userid` int NOT NULL AUTO_INCREMENT,
+  `userid` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
-  `usertype` int DEFAULT NULL COMMENT '用户类型1管理员2网格长',
+  `usertype` int(11) DEFAULT NULL COMMENT '用户类型1管理员2网格长',
   PRIMARY KEY (`userid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -186,4 +201,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-10  2:25:09
+-- Dump completed on 2023-06-11  1:41:06
