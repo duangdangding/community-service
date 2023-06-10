@@ -322,7 +322,7 @@ function jcAjax(u,data,ty,fun,o,p) {
         type: ty,
         dataType:'JSON',
         success:function (data) {
-            let showMsg = data.result ? data.result : data.msg;
+            let showMsg = data.data ? data.data : data.msg;
             let r = data.status === -1 ? o : p;
             let icon = data.status === -1 ? 5 : 6;
             jcAjax_result(showMsg,fun,r,icon);

@@ -32,6 +32,8 @@ mybatis-plus:
   configuration:
     ## 日志实现
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 关闭驼峰命名
+    map-underscore-to-camel-case: false
   global-config:
     # 逻辑删除配置
     db-config:

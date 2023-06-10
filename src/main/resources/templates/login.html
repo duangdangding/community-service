@@ -8,10 +8,10 @@
 <!--    <script src="/js/jquery-1.11.3.min.js"></script>-->
     <script th:src="@{/js/jquery.min.js}"></script>
     <script src="/layui/layer.js"></script>
-    <script src="/layer/layer.js"></script>
+<!--    <script src="/layer/layer.js"></script>-->
 <script src="/js/gogal_ajax.js"></script>
-    <link th:href="@{/layui/layer.css}" rel="stylesheet" type="text/css"/>
  <link type="text/css" rel="stylesheet"  href='/css/login.css'/>
+    <link th:href="@{/layui/layer.css}" rel="stylesheet" type="text/css"/>
 
 </head>
 
@@ -107,12 +107,7 @@
         }
         // debugger
         param_sucfun_get('/user/login',data,function (r) {
-            if (r.code === 200) {
-                debugger
-                window.location.href = "/"
-            } else {
-                show_err_msg(r.message)
-            }
+            window.location.href = "/"
         })
     }
 

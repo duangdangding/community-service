@@ -7,6 +7,7 @@ import com.lsh.communityservice.entry.User;
 import com.lsh.communityservice.vo.Result;
 import com.wf.captcha.utils.CaptchaUtil;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,5 +38,12 @@ public class IndexController {
         session.removeAttribute("user");
         return "login";
     }
+
+    @RequestMapping("toPage/{page}")
+    public String toPage(@PathVariable("page") String page) {
+        return page;
+    }
+
+
 
 }

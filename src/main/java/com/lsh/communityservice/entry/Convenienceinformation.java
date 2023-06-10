@@ -27,5 +27,10 @@ public class Convenienceinformation {
         
     @TableField("news")
     private String news;
-        
+
+//    审核
+    private String subject;
+    private String major;
+    private String title;
+
 }

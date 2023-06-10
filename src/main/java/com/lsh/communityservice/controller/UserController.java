@@ -41,6 +41,9 @@ public class UserController extends BaseController {
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUsername,username).eq(User::getPassword,password).eq(User::getUsertype,userType);
         User one = userService.getOne(wrapper);
+        if (ObjectUtil.isEmpty(one)) {
+            return failure("用户名或者密码错误！！！");
+        }
         one.setPassword(null);
         session.setAttribute("user",one);
         return success("登录成功！！！");
