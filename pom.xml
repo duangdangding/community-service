@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.5</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.lsh</groupId>
+    <artifactId>community-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>community-service</name>
+    <description>community-service</description>
+    <!-- 版 本 管 理 -->
+    <properties>
+        <!-- JDK 版本 -->
+        <java.version>1.8</java.version>
+        <!-- 数 据 源 版 本 -->
+        <druid.version>1.1.22</druid.version>
+        <!-- MyBatis 版 本 -->
+        <mybatis.plus.version>3.4.3.4</mybatis.plus.version>
+        <!-- freemarker 版本 -->
+        <freemarker.version>2.3.30</freemarker.version>
+        <!-- 验 证 码 版 本 -->
+        <captcha.version>1.6.2</captcha.version>
+        <!-- yaml 解 析 -->
+        <yaml.version>1.26</yaml.version>
+        <!-- HuTool 工 具 类 -->
+        <hutool.version>5.7.16</hutool.version>
+        <!-- Mysql 版 本 -->
+        <mysql.version>8.0.19</mysql.version>
+        <!-- dynamic 动态数据库  -->
+        <dynamic.verion>3.5.0</dynamic.verion>
+        <!-- Maven 配 置 编 译 JDK 版 本-->
+        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+<!--        <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>-->
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- yaml 解析 -->
+        <!--<dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${yaml.version}</version>
+        </dependency>-->
+        <!-- 数 据 库 操 作 框 架 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+        <!-- 常 用 工 具 类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- 验 证 码 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+            <version>${captcha.version}</version>
+        </dependency>
+        <!-- Dynamic datasource 动态数据源 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+            <version>${dynamic.verion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!-- 数 据 库 连 接 工 具 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <!--                <version> 2.5.4</version>-->
+<!--                <version>3.1.0</version>-->
+<!--                <configuration combine.self="override"/>-->
+
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <!--公司库中有的版本-->
+                <version>3.1.0</version>
+                <configuration combine.self="override"/>
+            </plugin>
+        </plugins>
+        <resources>
+            <!-- 加 载 .Java 下 的 XML 文 件 -->
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+            <!-- 加 载 .Java 下 的 XML 文 件 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
+</project>

@@ -1,0 +1,279 @@
+
+<!doctype html>
+<html class="login_root">
+<head>
+ <title>东城社区网格化管理系统 </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!--    <script src="/js/jquery-1.11.3.min.js"></script>-->
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script src="/layui/layer.js"></script>
+    <script src="/layer/layer.js"></script>
+<script src="/js/gogal_ajax.js"></script>
+    <link th:href="@{/layui/layer.css}" rel="stylesheet" type="text/css"/>
+ <link type="text/css" rel="stylesheet"  href='/css/login.css'/>
+
+</head>
+
+
+<body class="loign_page">
+	<div class="login_main">
+    	<form class="layui-form login_form " >
+        	<fieldset>
+            	<div class="login_title" id='img_title'>LOGIN登录</div>
+            	<div class="login_username_password" id='logininfo'>
+            		<!--<div style="position:relative" id="login_name"><input type="text"  autocomplete="off" id="txt_flag"  class="login_username" placeholder="请输入用户名"> -->
+            		<div style="position:relative" id="login_name">
+            			<div class="div1_username"></div>
+            			<input type="text"  id="username" class="login_username" name="username" placeholder="请输入用户名"><!-- autocomplete="off" -->
+            			<span class="login_username_span"></span>
+            		</div>
+                    <div style="position:relative" id="login_pwd">
+                    	<div class="div2_username"></div>
+                    	<input type="password"  id="password" class="login_password" name="password" placeholder="请输入密码"><!-- autocomplete="new-password" -->
+                    	<div style="position: absolute;right: 35px;top:0;height:100%;display:flex;flex-direction:row;align-items:center;">
+<!--                    		<img linkid="txt_pwd" id="spanpwd" style="cursor: pointer;" src="./img/eyeopen1.png">-->
+                    	</div>
+                    </div>
+                    <div  style="position:relative" id="login_code">
+                        <input type="text" autocomplete="off" id="txt_vc" class="login_code input-val" name="captcha" placeholder="请输入验证码">
+                        <span class="login_code_span"></span>
+                    </div>
+                </div>
+<!--                -->
+<!--	             -->
+	               <div class="login_username_yzm" id="isshowvalidate">
+<!--	                    <div style="width: 120px;display:table-cell;vertical-align:middle;" class="input_login_yzm">-->
+<!--	                       <input type="text"  id="txt_vc"/>-->
+<!--	                    </div>-->
+                        <div class="code">
+                            <img class="codeImage" id="captchaImage" src="/system/captcha/generate" onclick="resetCodeImg()" />
+<!--                            <canvas id="canvas" width="100" height="30"></canvas>-->
+						</div>
+<!--	                    <div id="img_codechange" style="cursor: pointer;line-height:3.2rem;height:3.2rem;">-->
+<!--                            <span class="btn" style="color: #2874ED;font-weight: bold;line-height:3.2rem;width:92px;font-size:18px;display:inline-block;text-align:right;">提交</span>-->
+<!--                        </div>-->
+                   </div>
+                <div class="my_login_pwd">
+                    <div class="login_checkbox" id='checktips'>
+                        <span id="btn_remenber">
+                            <input type="checkbox" id="my_login_remenber">
+                        </span>
+                        <strong class="first">记住密码</strong>
+                    </div>
+                    <div class="info_login_password">
+                        <input type="reset" value="重置">
+                    </div>
+                </div>
+                <div class="login_submit" id="btn_login">
+
+<!--                    <button type="submit" >登录</button>-->
+                </div>
+                <div class="checkboxgg">
+                    <input type="radio"  name="userType" checked value="1" />管理员
+				<input type="radio" name="userType" value="2" />网格员
+                </div>
+
+            </fieldset>
+        </form>
+        <button  onclick="login()" >
+            登 入
+        </button>
+    </div>
+	<div class="rou">
+		<dl>
+			<dt><img style="height: 160px;width: 400px; " src="/Assets/images/logo.png" alt=""></dt>
+			<dd style="font-size: 60px; color: #fff; font-weight: 550;">东城社区网格化管理系统</dd>
+		</dl>
+	</div>
+    <img id="left_center" class="login_LOGO2" src='/Assets/images/ditu.jpg'/>
+</body>
+</html>
+<!--<script type="text/javascript" src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js" ></script>-->
+
+<script>
+    let captchaPath = "/system/captcha/generate";
+    function resetCodeImg() {
+        document.getElementById("captchaImage").src = captchaPath + "?" + Math.random();
+        document.getElementById("txt_vc").value="";
+    }
+
+    function login() {
+        let data = {
+            username:$("#username").val(),
+            password:$("#password").val(),
+            captcha:$("#txt_vc").val(),
+            userType:$('input:radio:checked').val()
+        }
+        // debugger
+        param_sucfun_get('/user/login',data,function (r) {
+            if (r.code === 200) {
+                debugger
+                window.location.href = "/"
+            } else {
+                show_err_msg(r.message)
+            }
+        })
+    }
+
+ $(function(){
+
+
+
+  // var show_num = [];
+  //
+  // draw(show_num);
+  //
+  // $("#canvas").on('click',function(){
+  //
+  //  draw(show_num);
+  //
+  // })
+
+  // $(".btn").on('click',function(){
+  //
+  //  var val = $(".input-val").val().toLowerCase(); //toLowerCase()函数将字符串中的所有字符转为小写。所以输入框不区分大小写。
+  //
+  //  var num = show_num.join("");
+  //
+  //  if(val==''){
+  //
+  //   alert('请输入验证码！');
+  //
+  //  }else if(val == num){
+  //
+  //   alert('提交成功！');
+  //
+  //   $(".input-val").val('');
+  //
+  //  }else{
+  //
+  //   alert('验证码错误！请重新输入！');
+  //
+  //   $(".input-val").val('');
+  //
+  //  }
+  //
+  // })
+
+ })
+
+ function draw(show_num) {//生成并渲染出验证码图形
+
+  // var canvas_width=$('#canvas').width();
+  //
+  // var canvas_height=$('#canvas').height();
+  //
+  // var canvas = document.getElementById("canvas");//获取canvas
+  //
+  // // var context = canvas.getContext("2d");//获取到canvas画图的环境
+  //
+  // canvas.width = canvas_width;
+  //
+  // canvas.height = canvas_height;
+  //
+  // var sCode = "A,B,C,E,F,G,H,J,K,L,M,N,P,Q,R,S,T,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,m,n,p,q,r,s,t,u,v,w,x,y,z,1,2,3,4,5,6,7,8,9,0";
+  //
+  // var aCode = sCode.split(",");
+  //
+  // var aLength = aCode.length;//获取到数组的长度
+
+  // for (var i = 0; i < 4; i++) { //这里的for循环可以控制验证码位数
+  //
+  //  var j = Math.floor(Math.random() * aLength);//获取到随机的索引值
+  //
+  //  var deg = Math.random() - 0.5; //产生一个随机弧度
+  //
+  //  var txt = aCode[j];//得到随机的一个内容
+  //
+  //  show_num[i] = txt.toLowerCase();
+  //
+  //  var x = 10 + i * 20;//文字在canvas上的x坐标
+  //
+  //  var y = 20 + Math.random() * 8;//文字在canvas上的y坐标
+  //
+  //  context.font = "bold 24px 微软雅黑";
+  //
+  //  context.translate(x, y);
+  //
+  //  context.rotate(deg);
+  //
+  //  context.fillStyle = randomColor();
+  //
+  //  context.fillText(txt, 0, 0);
+  //
+  //  context.rotate(-deg);
+  //
+  //  context.translate(-x, -y);
+  //
+  // }
+  //
+  // for (var i = 0; i <= 5; i++) { //验证码上显示线条
+  //
+  //  context.strokeStyle = randomColor();
+  //
+  //  context.beginPath();
+  //
+  //  context.moveTo(Math.random() * canvas_width, Math.random() * canvas_height);
+  //
+  //  context.lineTo(Math.random() * canvas_width, Math.random() * canvas_height);
+  //
+  //  context.stroke();
+  //
+  // }
+  //
+  // for (var i = 0; i <= 20; i++) { //验证码上的小点
+  //
+  //  context.strokeStyle = randomColor();//随机生成
+  //
+  //  context.beginPath();
+  //
+  //  var x = Math.random() * canvas_width;
+  //
+  //  var y = Math.random() * canvas_height;
+  //
+  //  context.moveTo(x, y);
+  //
+  //  context.lineTo(x + 1, y + 1);
+  //
+  //  context.stroke();
+  //
+  // }
+
+ }
+
+ function randomColor() {//得到随机的颜色值
+
+  var r = Math.floor(Math.random() * 256);
+
+  var g = Math.floor(Math.random() * 256);
+
+  var b = Math.floor(Math.random() * 256);
+
+  return "rgb(" + r + "," + g + "," + b + ")";
+
+ }
+
+
+
+ // $("input[name='weekSelHistory']").each(function() {
+	// 			$(this).click(function() {
+	// 				if ($(this).is(':checked')) {
+	// 					$('form').find("input[name='weekSelHistory']").not(this).attr('checked', false)
+	// 				} else {
+	// 					$('form').find("input[name='weekSelHistory']").not(this).attr('checked', false)
+	// 				}
+	// 			});
+	// 		});
+
+$('.login_submit').click(function () {
+    var t=$("input[type='radio']:checked").val();
+    // alert(t)
+    if(t==2){
+        window.location.href="index.html"
+    }else{
+        window.location.href="index.html"
+    }
+})
+
+</script>

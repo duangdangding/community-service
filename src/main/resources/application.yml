@@ -1,0 +1,39 @@
+# Tomcat
+server:
+  # 端 口
+  port: 9211
+  # Servlet
+  servlet:
+    # Session
+    session:
+      # 超 时 时 间
+      timeout: 12000m
+
+# Spring 配置 设置0 或者小于0 为永不过期
+spring:
+  session:
+    timeout: 12000m
+  # Druid Pool 运行环境
+  profiles:
+    # 运 行 环 境
+    active: dev
+
+# 日志配置
+logging:
+  config: classpath:logback-spring.xml
+
+# Mybatis 配 置
+mybatis-plus:
+  # 配 置 扫 描
+  mapper-locations: classpath*:**/xml/**.xml,classpath*:mapper/**/*.xml
+  # 别 名 扫 描
+  type-aliases-package: com.lsh.communityservice
+  ## 日志打印
+  configuration:
+    ## 日志实现
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    # 逻辑删除配置
+    db-config:
+      # id生成策略
+      id-type: auto  

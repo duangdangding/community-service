@@ -1,0 +1,191 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: url(bg.jpg);
+    background: #ddd;
+}
+.top{
+
+    height: 80px;
+
+    overflow: hidden;
+
+    line-height: 80px;
+
+    border-bottom: 3px solid #4d3215;
+
+    background: #389BCC;
+
+    color: #fff;
+}
+.top h2{
+
+    float: left;
+
+    margin-left: 23px;
+
+    margin-top: 17px;
+}
+
+.topR{
+
+    float: right;
+
+    margin-right: 33px;
+
+    font-size: 18px;
+}
+.topR span{
+
+}
+.topR a{
+    color: #fff;
+}
+.main{
+
+    overflow: hidden;
+}
+.left{
+
+    float: left;
+
+    width: 260px;
+
+    background: #28323F;
+
+    color: #fff;
+
+    min-height: 800px;
+}
+.left >a{
+    height: 60px;
+    border-bottom: 2px solid #4D3215;
+    display: block;
+    line-height: 60px;
+    text-align: left;
+    padding-left: 40px;
+    font-size: 21px;
+    color: #000;
+    font-weight: 700;
+    color: #fff;
+}
+.right{
+
+    margin-left: 280px;
+
+    background: #fff;
+
+    border-radius: 10px;
+
+    margin-right: 12px;
+
+    margin-top: 10px;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.yiji{
+
+    padding-left: 40px;
+
+    border-bottom: 3px solid #4d3215;
+
+    font-weight: 700;
+}
+.yiji p{
+
+    height: 50px;
+
+    font-size: 20px;
+
+    line-height: 50px;
+
+    text-align: left;
+
+    /* background: #fff; */
+}
+.erji{
+    display: none;
+}
+.erji a{
+    height: 50px;
+    display: block;
+    line-height: 50px;
+    color: #fff;
+    text-align: left;
+    padding-left: 33px;
+}
+header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+main #adbt {
+    text-align: left;
+}
+main button {
+    margin: 20px 5px;
+    width: 85px;
+    height: 40px;
+    color: white;
+    border: 0;
+    border-radius: 31px;
+}
+.erji a.active{
+    /*background:#4d3215 ;*/
+    /*color: #fff;*/
+}
+.addmsg{
+    display: none;
+}
+.chaxun{
+    display: none;
+}
+
+.quxiao {
+    float: right;
+    margin-left: 40px;
+    line-height: 34px;
+}
+.titlebox{
+    padding: 20px 0;
+}
+.introbox{
+    font-size: 20px;
+    color: #666;
+    text-align: left;
+    line-height: 30px;
+    width: 90%;
+    margin: 20px auto;
+    overflow: hidden;
+}
+.introbox img{
+    width: 100%;
+}
+.introbox p{
+    margin: 20px 0;
+
+}
+.tback{
+    text-align: left;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.msglist h1{
+    margin: 30px 0;
+}
+.msglist{
+    overflow: hidden;
+}
+.chaxun table th:last-child{
+    display: none;
+}
+.chaxun table td:last-child{
+    display: none;
+}
