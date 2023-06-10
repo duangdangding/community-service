@@ -47,7 +47,92 @@
         </div>
     </div>
     <div class="main">
-        <block th:include="include :: menu_html" />
+        <div class="left">
+            <a href="/">
+                首页
+            </a>
+            <div class="yiji">
+                <p>
+                    <a href="1.html">住户管理 </a>
+                </p>
+                <div class="erji">
+                    <a class="active " >
+                        住户列表
+                    </a>
+                    <a >
+                        新增住户
+                    </a>
+                    <a class="">
+                        查询住户
+                    </a>
+                </div>
+            </div>
+            <div class="yiji"  >
+                <p>
+                    <a href="/toPage/2">便民信息管理</a>
+                </p>
+                <div class="erji" style="display: block">
+                    <a class="getlist">
+                        便民信息列表
+                    </a>
+                    <a onclick="addNew();">
+                        新增便民信息
+                    </a>
+                    <a class="serchbtn">
+                        查询便民信息
+                    </a>
+                </div>
+            </div>
+            <div class="yiji">
+                <p>
+                    <a href="/toPage/3">服务场所管理</a>
+                </p>
+
+                <div class="erji">
+                    <a class="  " >
+                        服务场所列表管理
+                    </a>
+                    <a >
+                        新增场所
+                    </a>
+                    <a class="">
+                        查询服务
+                    </a>
+                </div>
+
+            </div>
+            <div class="yiji">
+                <p>
+                    <a href="4.html">事件处理</a>
+                </p>
+                <div class="erji">
+                    <a>
+                        事件列表
+                    </a>
+                    <a>
+                        新增事件
+                    </a>
+                </div>
+            </div>
+            <div class="yiji">
+                <p>
+                    <a href="5.html">社区老年团</a>
+                </p>
+                <div class="erji">
+                    <a>
+                        老人信息列表
+                    </a>
+                    <a>
+                        新增老人信息
+                    </a>
+                </div>
+            </div>
+            <script>
+                $('.yiji p').click(function () {
+                    $(this).next('.erji').slideToggle()
+                })
+            </script>
+        </div>
         <div class="right">
 
             <div class="layui-fluid layadmin-homepage-fluid" style="background: #fff;width:100%;margin:0 auto;">
@@ -184,9 +269,7 @@
 
 
 <!--<script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>-->
-<script type="text/javascript" src="/js/jquery.basictable.min.js"></script>
-<script type="text/javascript" src="/js/reponsetable.min.js"></script>
-<script type="text/javascript" src="/layer/layer.js"></script>
+
 <script type="text/javascript">
     param_sucfun_get('/convenience/list',{},function (data) {
         console.log(data)
