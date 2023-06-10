@@ -26,7 +26,7 @@
         </h2>
         <div class="topR">
             <span>管理员：<span th:text="${session.user.username}"></span></span>
-            <a href="user/out">
+            <a href="/user/out">
                 退出登录
             </a>
         </div>
@@ -36,9 +36,9 @@
             <a href="/">
                 首页
             </a>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="1.html">住户管理 </a>
+                    <a href="/toPage/1">住户管理 </a>
                 </p>
                 <div class="erji" >
                     <a class="active " >
@@ -52,7 +52,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                    <a href="/toPage/2">
                        便民信息管理
@@ -67,7 +67,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                    <a href="/toPage/3">
                        服务场所管理
@@ -88,7 +88,7 @@
                     </div>
 
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/4">事件处理</a>
                 </p>
@@ -101,7 +101,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/5">社区老年团</a>
                 </p>
@@ -194,11 +194,11 @@
                             <div class="control-group">
                                 <label class="control-label" for="textinput-1">紧急联系人</label>
                                 <div class="controls">
-                                    <input id="input_id" name="input_id" type="text" class="input-xlarge" onblur="return checkId();">
+                                    <input id="input_phone" name="input_phone" type="text" class="input-xlarge" >
                                     <label id="idNumWarn"> </label>
                                 </div>
                             </div>
-
+                            <input id="input_id" name="input_id" type="hidden" class="input-xlarge" >
                             <!-- Text input-->
                             <div class="control-group">
                                 <label class="control-label" for="textinput-2">姓名</label>
@@ -251,7 +251,7 @@
                         </fieldset>
                         <div style="display: flex;justify-content: center">
                             <div class="btn-container" style="display:none" id="btn_edit">
-                                <button class="layui-btn" onclick="return editInfo();">确认修改</button>
+                                <button class="layui-btn" onclick="return submitInfo();">确认修改</button>
                             </div>
                             <div class="btn-container" style="display:block" id="btn_add">
                                 <button class="layui-btn" type="submit" >提交</button>
@@ -299,48 +299,67 @@
 </html>
 
 <script type="text/javascript">
-    $(function(){				//原始数据，json构建
-        $('#table').basictable({
-            breakpoint: 768
-        });
+    param_sucfun_get('/senior/list',{},function (data) {
+        console.log(data)
         $("#table").reponsetable({
             "id":"table",
             "operation": "editer",
             "type":"numbers",
             "colum": [
-                {"field": "major","title": "老人居住楼"},
-                {"field": "grade","title": "门牌号"},
-                {"field": "id","title": "紧急联系人"},
-                {"field": "name","title": "姓名"},
+                {"field": "olderlD","title": "编号"},
+                {"field": "building","title": "老人居住楼"},
+                {"field": "houseNo","title": "门牌号"},
+                {"field": "emergency","title": "紧急联系人"},
+                {"field": "username","title": "姓名"},
                 {"field": "sex","title": "性别"},
-                {"field": "subject","title": "是否卧床"},
-                {"field": "score","title": "年龄"}
+                {"field": "lieBed","title": "是否卧床"},
+                {"field": "age","title": "年龄"}
             ],
-            "data": [
-                {"major": "#1","grade": "1201","id": 15632564256,"name": "张三","sex": "男", "subject": "已卧床", "score": 70},
-                {"major": "#2","grade": "1001","id": 12356242510,"name": "李四","sex": "女", "subject": "未卧床", "score": 66},
-                {"major": "#3","grade": "1205","id": 15312345689,"name": "王五","sex": "男", "subject": "已卧床", "score": 50}
-            ]
+            "data": data
         });
+    })
+    $(function(){				//原始数据，json构建
+        $('#table').basictable({
+            breakpoint: 768
+        });
+        // $("#table").reponsetable({
+        //     "id":"table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "major","title": "老人居住楼"},
+        //         {"field": "grade","title": "门牌号"},
+        //         {"field": "id","title": "紧急联系人"},
+        //         {"field": "name","title": "姓名"},
+        //         {"field": "sex","title": "性别"},
+        //         {"field": "subject","title": "是否卧床"},
+        //         {"field": "score","title": "年龄"}
+        //     ],
+        //     "data": [
+        //         {"major": "#1","grade": "1201","id": 15632564256,"name": "张三","sex": "男", "subject": "已卧床", "score": 70},
+        //         {"major": "#2","grade": "1001","id": 12356242510,"name": "李四","sex": "女", "subject": "未卧床", "score": 66},
+        //         {"major": "#3","grade": "1205","id": 15312345689,"name": "王五","sex": "男", "subject": "已卧床", "score": 50}
+        //     ]
+        // });
 
         $('#search_table').basictable({
             breakpoint: 768
         });
-        $("#search_table").reponsetable({
-            "id":"search_table",
-            "operation": "editer",
-            "type":"numbers",
-            "colum": [
-                {"field": "major","title": "老人居住楼"},
-                {"field": "grade","title": "门牌号"},
-                {"field": "id","title": "紧急联系人"},
-                {"field": "name","title": "姓名"},
-                {"field": "sex","title": "性别"},
-                {"field": "subject","title": "是否卧床"},
-                {"field": "score","title": "年龄"}
-            ],
-            "data": []
-        });
+        // $("#search_table").reponsetable({
+        //     "id":"search_table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "major","title": "老人居住楼"},
+        //         {"field": "grade","title": "门牌号"},
+        //         {"field": "id","title": "紧急联系人"},
+        //         {"field": "name","title": "姓名"},
+        //         {"field": "sex","title": "性别"},
+        //         {"field": "subject","title": "是否卧床"},
+        //         {"field": "score","title": "年龄"}
+        //     ],
+        //     "data": []
+        // });
     })
 
     function checkId() {//检查手机号是否合适
@@ -438,7 +457,7 @@
     }
 
     function submitInfo() {//提交表单信息，表中有的所有信息的判定如上方法
-        if ((!checkId()) || (!checkName()) || (!checkScore())) {
+        if ( (!checkName()) || (!checkScore())) {
             return false
         }
         var major;
@@ -455,6 +474,7 @@
 
         var grade = $("#select_grade option:selected").text()
         var id = $("#input_id").val()
+        var emergency = $("#input_phone").val()
         var name = $("#input_name").val()
 
         var sex;
@@ -476,25 +496,29 @@
         var score = $("#input_score").val()
 
         var obj = {
-            "major":major,
-            "grade": grade,
-            "id": id,
-            "name": name,
+            "building":major,
+            "houseNo": grade,
+            "emergency":emergency,
+            "olderlD": id,
+            "username": name,
             "sex": sex,
-            "subject":subject,
-            "score":score
+            "lieBed":subject,
+            "age":score
         };
         $('.addmsg').hide()
-        $('.msglist').show()
-        var idSubject = getData();
-        var inputIdSubject = id + "_" + subject;
-        if (idSubject.indexOf(inputIdSubject)>=0) {
-            alert("手机号和科目重复，请重新填写！")
-            return false;
-        } else {
-            reponse.addtr(obj, "table");
-            return false;
-        }
+        param_suc_post('/senior/addOrUpdate',obj,function () {
+            window.location.href = "/toPage/5"
+        })
+        // $('.msglist').show()
+        // var idSubject = getData();
+        // var inputIdSubject = id + "_" + subject;
+        // if (idSubject.indexOf(inputIdSubject)>=0) {
+        //     alert("手机号和科目重复，请重新填写！")
+        //     return false;
+        // } else {
+        //     reponse.addtr(obj, "table");
+        //     return false;
+        // }
 
         return false;
 
@@ -523,7 +547,7 @@
         var rowdata=$("#table").data("rowdata");
         //alert(JSON.stringify(rowdata));
 
-        var edit_major = rowdata["major"];
+        var edit_major = rowdata["building"];
         if (edit_major=="1#") {
             $("#radio_computer").attr("checked","checked");
             $("#radio_iot").removeAttr("checked");
@@ -538,13 +562,15 @@
             $("#radio_iot").removeAttr("checked");
         };
 
-        var edit_grade = rowdata["grade"];
+        var edit_grade = rowdata["houseNo"];
         $("#select_grade option:selected").text(edit_grade);
 
-        var edit_id = rowdata["id"];
+        var edit_id = rowdata["olderlD"];
         $('#input_id').attr('value', edit_id);
+        var phones = rowdata["emergency"];
+        $('#input_phone').attr('value', phones);
 
-        var edit_name = rowdata["name"];
+        var edit_name = rowdata["username"];
         $('#input_name').attr('value', edit_name);
 
         var edit_sex = rowdata["sex"];
@@ -556,7 +582,7 @@
             $("#radio_man").removeAttr("checked");
         }
 
-        var edit_subject = rowdata["subject"];
+        var edit_subject = rowdata["lieBed"];
         if (edit_major=="已卧床") {
             $("#radio_ds").attr("checked","checked");
             $("#radio_java").removeAttr("checked");
@@ -567,7 +593,7 @@
             $("#radio_java").removeAttr("checked");
         }
 
-        var edit_score = rowdata["score"];
+        var edit_score = rowdata["age"];
         $('#input_score').attr('value', edit_score);
 
 
@@ -662,9 +688,9 @@
     }
 
     function addNew() {//清空表单中的信息
-        $('#input_id').attr('value', " ");
-        $('#input_name').attr('value', " ");
-        $('#input_score').attr('value', " ");
+        $('#input_id').attr('value', "");
+        $('#input_name').attr('value', "");
+        $('#input_score').attr('value', "");
         $('.addmsg').show()
         $('.msglist').hide()
     }
@@ -738,34 +764,53 @@
     }
 
     function searchById() {	//根据手机号和姓名查询
-        $("#search_table  tr:not(:first)").html("");
+        $("#search_table").html("");
         if (!checkSearch()) {
             return false;
         }
         var input_search = $("#input_search").val();
-        var names = reponse.Columndata("name", "table");
-        var ids = reponse.Columndata("id", "table");
-        var res = getTableData();
-        if (ids.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["id"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else if(names.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["name"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else {
-            alert("无此记录")
-            return false
-        }
-        res = $.grep(res, function(i){ return i });
-        console.log(res)
-
-        $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
+        param_sucfun_get('/senior/list',{emergency:input_search},function (data) {
+            console.log(data)
+            $("#search_table").reponsetable({
+                "id":"search_table",
+                "operation": "editer",
+                "type":"numbers",
+                "colum": [
+                    {"field": "olderlD","title": "编号"},
+                    {"field": "building","title": "老人居住楼"},
+                    {"field": "houseNo","title": "门牌号"},
+                    {"field": "emergency","title": "紧急联系人"},
+                    {"field": "username","title": "姓名"},
+                    {"field": "sex","title": "性别"},
+                    {"field": "lieBed","title": "是否卧床"},
+                    {"field": "age","title": "年龄"}
+                ],
+                "data": data
+            });
+        })
+        // var names = reponse.Columndata("name", "table");
+        // var ids = reponse.Columndata("id", "table");
+        // var res = getTableData();
+        // if (ids.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["id"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else if(names.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["name"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else {
+        //     alert("无此记录")
+        //     return false
+        // }
+        // res = $.grep(res, function(i){ return i });
+        // console.log(res)
+        //
+        // $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
         return true;
     }
 
@@ -795,33 +840,52 @@
     }
 
     function searchByScore() {
-        $("#search_table  tr:not(:first)").html("");
+        $("#search_table").html("");
         if (!checkSearchScore()) {
             return false;
         }
         var input_search = $("#input_search").val()
-        var scores = reponse.Columndata("score", "table");
-        var input_score = input_search.split("-");
-
-        var res = getTableData();
-        // console.log(res, input_score, scores)
-        scores = $.grep(scores, function(i){
-            if(parseInt(input_score[1]) >= parseInt(i) && parseInt(input_score[0]) <= parseInt(i))
-                return i });
-        // console.log(scores)
-        if (scores.length != 0) {
-            for (var i = 0; i < res.length; i++) {
-                if ((parseInt(res[i]["score"]) > parseInt(input_score[1])) || (parseInt(res[i]["score"]) < parseInt(input_score[0]))) {
-                    delete res[i];
-                }
-            }
-        } else {
-            alert("无此记录");
-            return false;
-        }
-        res = $.grep(res, function(i){ return i });
-        console.log(res)
-        $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
+        param_sucfun_get('/senior/list',{ageStr:input_search},function (data) {
+            console.log(data)
+            $("#search_table").reponsetable({
+                "id":"search_table",
+                "operation": "editer",
+                "type":"numbers",
+                "colum": [
+                    {"field": "olderlD","title": "编号"},
+                    {"field": "building","title": "老人居住楼"},
+                    {"field": "houseNo","title": "门牌号"},
+                    {"field": "emergency","title": "紧急联系人"},
+                    {"field": "username","title": "姓名"},
+                    {"field": "sex","title": "性别"},
+                    {"field": "lieBed","title": "是否卧床"},
+                    {"field": "age","title": "年龄"}
+                ],
+                "data": data
+            });
+        })
+        // var scores = reponse.Columndata("score", "table");
+        // var input_score = input_search.split("-");
+        //
+        // var res = getTableData();
+        // // console.log(res, input_score, scores)
+        // scores = $.grep(scores, function(i){
+        //     if(parseInt(input_score[1]) >= parseInt(i) && parseInt(input_score[0]) <= parseInt(i))
+        //         return i });
+        // // console.log(scores)
+        // if (scores.length != 0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if ((parseInt(res[i]["score"]) > parseInt(input_score[1])) || (parseInt(res[i]["score"]) < parseInt(input_score[0]))) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else {
+        //     alert("无此记录");
+        //     return false;
+        // }
+        // res = $.grep(res, function(i){ return i });
+        // console.log(res)
+        // $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
         return true;
     }
 
@@ -838,7 +902,15 @@
     function deletetr(a, e) {//删除改行信息
         if(window.confirm('确定删除吗？')){
             var tr = $(a).parent().parent();
-            reponse.deletetr(tr, e);
+            reponse.resiverowdata(tr, "table");
+            var rowdata=$("#table").data("rowdata");
+            //alert(JSON.stringify(rowdata));
+            console.log(rowdata)
+            debugger
+            var id = rowdata["olderlD"];
+            param_sucfun_get('/senior/delete',{olderlD:id},function () {
+                window.location.href = "/toPage/5"
+            })
             return true;
         }else{
             return false;

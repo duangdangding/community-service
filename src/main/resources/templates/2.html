@@ -41,7 +41,7 @@
         </h2>
         <div class="topR">
             <span>管理员：<span th:text="${session.user.username}"></span></span>
-            <a href="user/out">
+            <a href="/user/out">
                 退出登录
             </a>
         </div>
@@ -51,9 +51,9 @@
             <a href="/">
                 首页
             </a>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="1.html">住户管理 </a>
+                    <a href="/toPage/1">住户管理 </a>
                 </p>
                 <div class="erji">
                     <a class="active " >
@@ -67,7 +67,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji"  >
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''" >
                 <p>
                     <a href="/toPage/2">便民信息管理</a>
                 </p>
@@ -83,7 +83,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/3">服务场所管理</a>
                 </p>
@@ -101,9 +101,9 @@
                 </div>
 
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="4.html">事件处理</a>
+                    <a href="/toPage/4">事件处理</a>
                 </p>
                 <div class="erji">
                     <a>
@@ -114,9 +114,9 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="5.html">社区老年团</a>
+                    <a href="/toPage/5">社区老年团</a>
                 </p>
                 <div class="erji">
                     <a>
@@ -584,7 +584,7 @@
 
     function searchById() {	//根据手机号和姓名查询
         var input_search = $("#input_search").val();
-        $("#search_table  tr:not(:first)").html("");
+        $("#search_table").html("");
         if (!checkSearch()) {
             return false;
         }

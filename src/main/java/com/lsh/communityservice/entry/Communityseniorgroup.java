@@ -30,5 +30,12 @@ public class Communityseniorgroup {
         
     @TableField("contact")
     private String contact;
-        
+    private String building;
+    private String houseNo;
+    private String emergency;
+    private String username;
+    private String sex;
+    private int age;
+    private String lieBed;
+
 }

@@ -30,5 +30,7 @@ public class Eventprocessing {
         
     @TableField("progress")
     private String progress;
+
+    private String eventType;
         
 }

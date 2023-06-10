@@ -66,7 +66,9 @@
                     </div>
                 </div>
                 <div class="login_submit" id="btn_login">
-
+                    <a href="javascript:void(0)" style="color: white" onclick="login()" >
+                        登 入
+                    </a>
 <!--                    <button type="submit" >登录</button>-->
                 </div>
                 <div class="checkboxgg">
@@ -76,9 +78,6 @@
 
             </fieldset>
         </form>
-        <button  onclick="login()" >
-            登 入
-        </button>
     </div>
 	<div class="rou">
 		<dl>
@@ -105,8 +104,8 @@
             captcha:$("#txt_vc").val(),
             userType:$('input:radio:checked').val()
         }
-        // debugger
         param_sucfun_get('/user/login',data,function (r) {
+            console.log(r)
             window.location.href = "/"
         })
     }
@@ -261,14 +260,14 @@
 	// 			});
 	// 		});
 
-$('.login_submit').click(function () {
-    var t=$("input[type='radio']:checked").val();
-    // alert(t)
-    if(t==2){
-        window.location.href="index.html"
-    }else{
-        window.location.href="index.html"
-    }
-})
+// $('.login_submit').click(function () {
+//     var t=$("input[type='radio']:checked").val();
+//     // alert(t)
+//     if(t==2){
+//         window.location.href="index.html"
+//     }else{
+//         window.location.href="index.html"
+//     }
+// })
 
 </script>

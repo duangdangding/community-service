@@ -26,7 +26,7 @@
         </h2>
         <div class="topR">
             <span>管理员：<span th:text="${session.user.username}"></span></span>
-            <a href="user/out">
+            <a href="/user/out">
                 退出登录
             </a>
         </div>
@@ -36,9 +36,9 @@
             <a href="/">
                 首页
             </a>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="1.html">住户管理</a>
+                    <a href="/toPage/1">住户管理</a>
                 </p>
                 <div class="erji" >
                     <a class=" " >
@@ -52,7 +52,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/2">便民信息管理</a>
                 </p>
@@ -68,7 +68,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji" >
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/3">
                         服务场所管理
@@ -87,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/4"> 事件处理</a>
                 </p>
@@ -103,7 +103,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/5">社区老年团</a>
                 </p>
@@ -156,13 +156,13 @@
 
 
                             <!-- Text input-->
-                            <div class="control-group">
+                            <!--<div class="control-group">
                                 <label class="control-label" for="textinput-1">场所id</label>
                                 <div class="controls">
                                     <input id="input_csid" name="input_csid" type="text" class="input-xlarge" onblur="return checkId();">
                                 </div>
-                            </div>
-
+                            </div>-->
+                            <input id="input_csid" name="input_csid" type="hidden">
                             <!-- Text input-->
                             <div class="control-group">
                                 <label class="control-label" for="textinput-2">场所名称</label>
@@ -184,7 +184,7 @@
                             <div class="control-group">
                                 <label class="control-label" for="textinput-3">从业人员数量</label>
                                 <div class="controls">
-                                    <input id="input_score" name="input_score" type="text" placeholder="score <=100" class="input-xlarge" onblur="return checkScore();">
+                                    <input id="input_score" name="input_score" type="number" placeholder="score <=100" class="input-xlarge" onblur="return checkScore();">
                                     <label id="scoreWarn"> </label>
                                 </div>
                             </div>
@@ -205,7 +205,7 @@
                         </fieldset>
                         <div style="display: flex;justify-content: center">
                             <div class="btn-container" style="display:none" id="btn_edit">
-                                <button class="layui-btn" onclick="return editInfo();">确认修改</button>
+                                <button class="layui-btn" onclick="return submitInfo();">确认修改</button>
                             </div>
                             <div class="btn-container" style="display:block" id="btn_add">
                                 <button class="layui-btn" type="submit" >提交</button>
@@ -253,46 +253,62 @@
 
 
 <script type="text/javascript">
-    $(function(){				//原始数据，json构建
-        $('#table').basictable({
-            breakpoint: 768
-        });
+    param_sucfun_get('/place/list',{},function (data) {
         $("#table").reponsetable({
             "id":"table",
             "operation": "editer",
             "type":"numbers",
             "colum": [
-                {"field": "id","title": "场所id"},
-                {"field": "name","title": "场所名称"},
-                {"field": "address","title": "场所地址"},
+                {"field": "serviceplaceID","title": "场所id"},
+                {"field": "serviceplaceName","title": "场所名称"},
+                {"field": "placeadder","title": "场所地址"},
                 {"field": "number","title": "从业人员人数"},
-                {"field": "ueername","title": "经营人员"},
+                {"field": "bossname","title": "经营人员"},
                 {"field": "phone","title": "联系方式"},
             ],
-            "data": [
-                {"id": 1,"name": "老年活动中心","address": "xxxxxxx", "number": 70,"ueername":'张三',"phone":17658457142},
-                {"id": 2,"name": "幼儿园","address": "xxxxxxx", "number": 50,"ueername":'张三',"phone":17658457142},
-                {"id": 3,"name": "便利店","address": "xxxxxxx", "number": 20,"ueername":'张三',"phone":17658457142},
-            ]
+            "data": data
         });
+    })
+    $(function(){				//原始数据，json构建
+        $('#table').basictable({
+            breakpoint: 768
+        });
+        // $("#table").reponsetable({
+        //     "id":"table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "id","title": "场所id"},
+        //         {"field": "name","title": "场所名称"},
+        //         {"field": "address","title": "场所地址"},
+        //         {"field": "number","title": "从业人员人数"},
+        //         {"field": "ueername","title": "经营人员"},
+        //         {"field": "phone","title": "联系方式"},
+        //     ],
+        //     "data": [
+        //         {"id": 1,"name": "老年活动中心","address": "xxxxxxx", "number": 70,"ueername":'张三',"phone":17658457142},
+        //         {"id": 2,"name": "幼儿园","address": "xxxxxxx", "number": 50,"ueername":'张三',"phone":17658457142},
+        //         {"id": 3,"name": "便利店","address": "xxxxxxx", "number": 20,"ueername":'张三',"phone":17658457142},
+        //     ]
+        // });
 
         $('#search_table').basictable({
             breakpoint: 768
         });
-        $("#search_table").reponsetable({
-            "id":"search_table",
-            "operation": "editer",
-            "type":"numbers",
-            "colum": [
-                {"field": "id","title": "场所id"},
-                {"field": "name","title": "场所名称"},
-                {"field": "address","title": "场所地址"},
-                {"field": "number","title": "从业人员人数"},
-                {"field": "ueername","title": "经营人员"},
-                {"field": "phone","title": "联系方式"},
-            ],
-            "data": []
-        });
+        // $("#search_table").reponsetable({
+        //     "id":"search_table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "id","title": "场所id"},
+        //         {"field": "name","title": "场所名称"},
+        //         {"field": "address","title": "场所地址"},
+        //         {"field": "number","title": "从业人员人数"},
+        //         {"field": "ueername","title": "经营人员"},
+        //         {"field": "phone","title": "联系方式"},
+        //     ],
+        //     "data": []
+        // });
     })
 
     function checkId() {//检查手机号是否合适
@@ -327,6 +343,7 @@
 
     function checkScore() {
         var score = $("#input_score").val()
+        console.log(score)
         if(score == "" || score == null) {
             $("#scoreWarn").html("从业人员不能为空！")
             return false;
@@ -340,7 +357,11 @@
     }
 
     function checkIdReg(theObj) {//正则判断手机号是否合格
-        var reg = /^\d{11}$/;
+        let n = theObj.length
+        if (n !== 11) {
+            return false;
+        }
+        var reg = /\d{11}$/;
         if (reg.test(theObj)) {
             return true;
         }
@@ -349,18 +370,27 @@
 
     function checkNameReg(theObj) {//正则判断姓名是否合格
         var reg = /^[\u4e00-\u9fa5]{2,4}$/;
-        if (reg.test(theObj)) {
+        let n = theObj.length
+        if (n < 2 || n> 4) {
+            return false;
+        }
+        var filter = /[\u4E00-\u9FA5\uF900-\uFA2D]{2,4}$/;
+        // let r = reg.test(theObj)
+        let r = filter.test(theObj)
+        console.log(theObj,r,n)
+        if (r) {
             return true;
         }
         return false;
     }
 
     function checkScoreReg(theObj) {//正则判断从业人员是否合格
-        var reg = /^[0-9]+.?[0-9]*$/;
-        if (reg.test(theObj)) {
-            if ((parseInt(theObj) <= 100) && (parseInt(theObj) >= 0)) {
-                return true;
-            }
+        // var reg = /^[0-9]+.?[0-9]*$/;
+        var reg = /^[0-9]+.?[0-9]*/;
+        console.log(theObj)
+        console.log(reg.test(theObj))
+        if ((parseInt(theObj) <= 100) && (parseInt(theObj) >= 0)) {
+            return true;
         }
         return false;
     }
@@ -390,7 +420,7 @@
     }
 
     function submitInfo() {//提交表单信息，表中有的所有信息的判定如上方法
-        if ((!checkId()) || (!checkName()) || (!checkScore())) {
+        if ((!checkName()) || (!checkScore())) {
             return false
         }
 
@@ -403,23 +433,26 @@
 
         var obj = {
             "number":score,
-            "address": address,
-            "id": id,
-            "name": csname,
-            "ueername": name,
+            "placeadder": address,
+            "serviceplaceID": id,
+            "serviceplaceName": csname,
+            "bossname": name,
             "phone":phone,
         };
         $('.addmsg').hide()
-        $('.msglist').show()
-        var idSubject = getData();
-        var inputIdSubject = id + "_" + subject;
-        if (idSubject.indexOf(inputIdSubject)>=0) {
-            alert("手机号和科目重复，请重新填写！")
-            return false;
-        } else {
-            reponse.addtr(obj, "table");
-            return false;
-        }
+        param_suc_post('/place/addOrUpdate',obj,function () {
+            window.location.href = "/toPage/3"
+        })
+        // $('.msglist').show()
+        // var idSubject = getData();
+        // var inputIdSubject = id + "_" + subject;
+        // if (idSubject.indexOf(inputIdSubject)>=0) {
+        //     alert("手机号和科目重复，请重新填写！")
+        //     return false;
+        // } else {
+        //     reponse.addtr(obj, "table");
+        //     return false;
+        // }
 
         return false;
 
@@ -451,14 +484,14 @@
 
 
 
-        var id = rowdata["id"];
+        var id = rowdata["serviceplaceID"];
             $("#input_csid").attr('value', id)
 
-        var csname = rowdata["name"];
+        var csname = rowdata["serviceplaceName"];
             $("#input_csname").attr('value', csname)
-        var address =  rowdata["address"]
+        var address =  rowdata["placeadder"]
             $("#input_address").attr('value', address)
-        var name = rowdata["ueername"]
+        var name = rowdata["bossname"]
             $("#input_name").attr('value', name)
         var phone = rowdata["phone"]
             $("#input_id").attr('value', phone)
@@ -498,9 +531,9 @@
     }
 
     function addNew() {//清空表单中的信息
-        $('#input_id').attr('value', " ");
-        $('#input_name').attr('value', " ");
-        $('#input_score').attr('value', " ");
+        $('#input_id').attr('value', "");
+        $('#input_name').attr('value', "");
+        $('#input_score').attr('value', "");
         $('.addmsg').show()
         $('.msglist').hide()
     }
@@ -569,34 +602,50 @@
     }
 
     function searchById() {	//根据手机号和姓名查询
-        $("#search_table  tr:not(:first)").html("");
+        $("#search_table").html("");
         if (!checkSearch()) {
             return false;
         }
         var input_search = $("#input_search").val();
-        var names = reponse.Columndata("name", "table");
-        var ids = reponse.Columndata("id", "table");
-        var res = getTableData();
-        if (ids.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["id"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else if(names.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["name"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else {
-            alert("无此记录")
-            return false
-        }
-        res = $.grep(res, function(i){ return i });
-        console.log(res)
-
-        $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
+        param_sucfun_get('/place/list',{serviceplaceID:input_search},function (data) {
+            $("#search_table").reponsetable({
+                "id":"search_table",
+                "operation": "editer",
+                "type":"numbers",
+                "colum": [
+                    {"field": "serviceplaceID","title": "场所id"},
+                    {"field": "serviceplaceName","title": "场所名称"},
+                    {"field": "placeadder","title": "场所地址"},
+                    {"field": "number","title": "从业人员人数"},
+                    {"field": "bossname","title": "经营人员"},
+                    {"field": "phone","title": "联系方式"},
+                ],
+                "data": data
+            });
+        })
+        // var names = reponse.Columndata("name", "table");
+        // var ids = reponse.Columndata("id", "table");
+        // var res = getTableData();
+        // if (ids.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["id"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else if(names.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["name"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else {
+        //     alert("无此记录")
+        //     return false
+        // }
+        // res = $.grep(res, function(i){ return i });
+        // console.log(res)
+        //
+        // $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
         return true;
     }
 
@@ -676,8 +725,17 @@
 
     function deletetr(a, e) {//删除改行信息
         if(window.confirm('确定删除吗？')){
+            // var tr = $(a).parent().parent();
+            // reponse.deletetr(tr, e);
             var tr = $(a).parent().parent();
-            reponse.deletetr(tr, e);
+            reponse.resiverowdata(tr, "table");
+            var rowdata=$("#table").data("rowdata");
+            //alert(JSON.stringify(rowdata));
+
+            var id = rowdata["serviceplaceID"];
+            param_sucfun_get('/place/delete',{serviceplaceID:id},function () {
+                window.location.href = "/toPage/3"
+            })
             return true;
         }else{
             return false;

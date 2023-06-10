@@ -26,7 +26,7 @@
         </h2>
         <div class="topR">
             <span>管理员：<span th:text="${session.user.username}"></span></span>
-            <a href="user/out">
+            <a href="/user/out">
                 退出登录
             </a>
         </div>
@@ -36,9 +36,9 @@
             <a href="/">
                 首页
             </a>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
-                    <a href="1.html">住户管理 </a>
+                    <a href="/toPage/1">住户管理 </a>
                 </p>
                 <div class="erji">
                     <a class="active " >
@@ -52,7 +52,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji"  >
+            <div class="yiji"  th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/2">便民信息管理</a>
                 </p>
@@ -68,7 +68,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 1} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/3">服务场所管理</a>
                 </p>
@@ -87,7 +87,7 @@
                 </div>
 
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/4">
                         事件处理
@@ -105,7 +105,7 @@
                     </a>
                 </div>
             </div>
-            <div class="yiji">
+            <div class="yiji" th:style="'display:' + @{(${session.user.usertype == 2} ? 'block' : 'none')} + ''">
                 <p>
                     <a href="/toPage/5">社区老年团</a>
                 </p>
@@ -171,19 +171,19 @@
 
 
                             <!-- Text input-->
-                            <div class="control-group">
+                            <!--<div class="control-group">
                                 <label class="control-label" for="textinput-1">事件编号</label>
                                 <div class="controls">
                                     <input id="input_id" name="input_id" type="text" class="input-xlarge" onblur="return checkId();">
                                     <label id="idNumWarn"> </label>
                                 </div>
-                            </div>
-
+                            </div>-->
+                            <input id="input_id" name="eventID" type="hidden">
                             <!-- Text input-->
                             <div class="control-group">
                                 <label class="control-label" for="textinput-2">事件内容</label>
                                 <div class="controls">
-                                    <input id="input_name" name="input_name" type="text"  class="input-xlarge" onblur="return checkName();">
+                                    <input id="input_name" name="contact" type="text"  class="input-xlarge" onblur="return checkName();">
                                     <label id="nameWarn"> </label>
                                 </div>
                             </div>
@@ -214,7 +214,7 @@
                         </fieldset>
                         <div style="display: flex;justify-content: center">
                             <div class="btn-container" style="display:none" id="btn_edit">
-                                <button class="layui-btn" onclick="return editInfo();">确认修改</button>
+                                <button class="layui-btn" onclick="return submitInfo();">确认修改</button>
                             </div>
                             <div class="btn-container" style="display:block" id="btn_add">
                                 <button class="layui-btn" type="submit" >提交</button>
@@ -262,44 +262,59 @@
 
 
 <script type="text/javascript">
-    $(function(){				//原始数据，json构建
-        $('#table').basictable({
-            breakpoint: 768
-        });
+    param_sucfun_get('/event/list',{},function (data) {
+        console.log(data)
         $("#table").reponsetable({
             "id":"table",
             "operation": "editer",
             "type":"numbers",
             "colum": [
-                {"field": "major","title": "事件类型"},
-                {"field": "id","title": "事件编号"},
-                {"field": "name","title": "事件内容"},
-                {"field": "subject","title": "事件跟踪"},
+                {"field": "eventType","title": "事件类型"},
+                {"field": "eventID","title": "事件编号"},
+                {"field": "contact","title": "事件内容"},
+                {"field": "progress","title": "事件跟踪"},
             ],
-            "data": [
-                {"major": "紧急事件","id": 1,"name": "4月12日社区老人体检","subject": "新发布"},
-                {"major": "非紧急事件","id": 2,"name": "5月14日天气晴","subject": "审核中"},
-                {"major": "非紧急事件","id": 3,"name": "5月14日天气晴","subject": "已完成"},
-
-
-            ]
+            "data": data
         });
+    })
+    $(function(){				//原始数据，json构建
+        $('#table').basictable({
+            breakpoint: 768
+        });
+        // $("#table").reponsetable({
+        //     "id":"table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "major","title": "事件类型"},
+        //         {"field": "id","title": "事件编号"},
+        //         {"field": "name","title": "事件内容"},
+        //         {"field": "subject","title": "事件跟踪"},
+        //     ],
+        //     "data": [
+        //         {"major": "紧急事件","id": 1,"name": "4月12日社区老人体检","subject": "新发布"},
+        //         {"major": "非紧急事件","id": 2,"name": "5月14日天气晴","subject": "审核中"},
+        //         {"major": "非紧急事件","id": 3,"name": "5月14日天气晴","subject": "已完成"},
+        //
+        //
+        //     ]
+        // });
 
         $('#search_table').basictable({
             breakpoint: 768
         });
-        $("#search_table").reponsetable({
-            "id":"search_table",
-            "operation": "editer",
-            "type":"numbers",
-            "colum": [
-                {"field": "major","title": "事件类型"},
-                {"field": "id","title": "事件编号"},
-                {"field": "name","title": "事件内容"},
-                {"field": "subject","title": "事件跟踪"},
-            ],
-            "data": []
-        });
+        // $("#search_table").reponsetable({
+        //     "id":"search_table",
+        //     "operation": "editer",
+        //     "type":"numbers",
+        //     "colum": [
+        //         {"field": "major","title": "事件类型"},
+        //         {"field": "id","title": "事件编号"},
+        //         {"field": "name","title": "事件内容"},
+        //         {"field": "subject","title": "事件跟踪"},
+        //     ],
+        //     "data": []
+        // });
     })
 
     function checkId() {
@@ -316,8 +331,9 @@
 
     function checkName() {
         var name = $("#input_name").val()
+        console.log(name)
         if(name == "" || name == null) {
-            $("#nameWarn").html("姓名不能为空！")
+            $("#nameWarn").html("内容不能为空！")
             return false;
         } else {
             $("#nameWarn").html("")
@@ -325,13 +341,8 @@
         }
     }
 
-
-
-
-
-
     function submitInfo() {//提交表单信息，表中有的所有信息的判定如上方法
-        if ((!checkId()) || (!checkName())) {
+        if (!checkName()) {
             return false
         }
         var major;
@@ -358,22 +369,25 @@
 
 
         var obj = {
-            "major":major,
-            "id": id,
-            "name": name,
-            "subject":subject,
+            "eventType":major,
+            "eventID": id,
+            "contact": name,
+            "progress":subject,
         };
         $('.addmsg').hide()
-        $('.msglist').show()
-        var idSubject = getData();
-        var inputIdSubject = id + "_" + subject;
-        if (idSubject.indexOf(inputIdSubject)>=0) {
-            alert("编号重复，请重新填写！")
-            return false;
-        } else {
-            reponse.addtr(obj, "table");
-            return false;
-        }
+        // $('.msglist').show()
+        param_suc_post('/event/addOrUpdate',obj,function () {
+            window.location.href = "/toPage/4"
+        })
+        // var idSubject = getData();
+        // var inputIdSubject = id + "_" + subject;
+        // if (idSubject.indexOf(inputIdSubject)>=0) {
+        //     alert("编号重复，请重新填写！")
+        //     return false;
+        // } else {
+        //     reponse.addtr(obj, "table");
+        //     return false;
+        // }
 
         return false;
 
@@ -402,7 +416,7 @@
         var rowdata=$("#table").data("rowdata");
         //alert(JSON.stringify(rowdata));
 
-        var edit_major = rowdata["major"];
+        var edit_major = rowdata["eventType"];
         if (edit_major=="紧急事件") {
             $("#radio_computer").attr("checked","checked");
             $("#radio_iot").removeAttr("checked");
@@ -416,15 +430,15 @@
         var edit_grade = rowdata["grade"];
         $("#select_grade option:selected").text(edit_grade);
 
-        var edit_id = rowdata["id"];
+        var edit_id = rowdata["eventID"];
         $('#input_id').attr('value', edit_id);
         console.log(edit_id)
-        var edit_name = rowdata["name"];
+        var edit_name = rowdata["contact"];
         $('#input_name').attr('value', edit_name);
 
 
 
-        var edit_subject = rowdata["subject"];
+        var edit_subject = rowdata["progress"];
 
         if (edit_subject=="新发布") {
             $("#radio_ds").attr("checked","checked");
@@ -564,34 +578,50 @@
     }
 
     function searchById() {	//根据手机号和姓名查询
-        $("#search_table  tr:not(:first)").html("");
+        $("#search_table").html("");
         if (!checkSearch()) {
             return false;
         }
         var input_search = $("#input_search").val();
-        var names = reponse.Columndata("name", "table");
-        var ids = reponse.Columndata("id", "table");
-        var res = getTableData();
-        if (ids.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["id"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else if(names.indexOf(input_search)>=0) {
-            for (var i = 0; i < res.length; i++) {
-                if (res[i]["name"] != input_search) {
-                    delete res[i];
-                }
-            }
-        } else {
-            alert("无此记录")
-            return false
-        }
-        res = $.grep(res, function(i){ return i });
-        console.log(res)
-
-        $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
+        param_sucfun_get('/event/list',{eventID:input_search},function (data) {
+            console.log(data)
+            $("#search_table").reponsetable({
+                "id":"search_table",
+                "operation": "editer",
+                "type":"numbers",
+                "colum": [
+                    {"field": "eventType","title": "事件类型"},
+                    {"field": "eventID","title": "事件编号"},
+                    {"field": "contact","title": "事件内容"},
+                    {"field": "progress","title": "事件跟踪"},
+                ],
+                "data": data
+            });
+        })
+        // var input_search = $("#input_search").val();
+        // var names = reponse.Columndata("name", "table");
+        // var ids = reponse.Columndata("id", "table");
+        // var res = getTableData();
+        // if (ids.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["id"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else if(names.indexOf(input_search)>=0) {
+        //     for (var i = 0; i < res.length; i++) {
+        //         if (res[i]["name"] != input_search) {
+        //             delete res[i];
+        //         }
+        //     }
+        // } else {
+        //     alert("无此记录")
+        //     return false
+        // }
+        // res = $.grep(res, function(i){ return i });
+        // console.log(res)
+        //
+        // $.grep(res, function(i){ reponse.addtr(i, "search_table"); });
         return true;
     }
 
@@ -663,8 +693,17 @@
 
     function deletetr(a, e) {//删除改行信息
         if(window.confirm('确定删除吗？')){
+            // var tr = $(a).parent().parent();
+            // reponse.deletetr(tr, e);
             var tr = $(a).parent().parent();
-            reponse.deletetr(tr, e);
+            reponse.resiverowdata(tr, "table");
+            var rowdata=$("#table").data("rowdata");
+            //alert(JSON.stringify(rowdata));
+
+            var id = rowdata["eventID"];
+            param_sucfun_get('/event/delete',{eventID:id},function () {
+                window.location.href = "/toPage/4"
+            })
             return true;
         }else{
             return false;

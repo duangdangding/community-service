@@ -32,17 +32,17 @@ public class UserController extends BaseController {
     public Result login(HttpServletRequest request, HttpSession session,String username, String password, String captcha,Integer userType) {
 
         if (StrUtil.isBlank(username) || StrUtil.isBlank(password) || StrUtil.isBlank(captcha)) {
-            return failure("用户名，密码，验证码不能为空！！！");
+            return Result.failure("用户名，密码，验证码不能为空！！！");
         }
         boolean ver = CaptchaUtil.ver(captcha, request);
         if (!ver) {
-            return failure("验证码错误！！！");
+            return Result.failure("验证码错误！！！");
         }
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(User::getUsername,username).eq(User::getPassword,password).eq(User::getUsertype,userType);
         User one = userService.getOne(wrapper);
         if (ObjectUtil.isEmpty(one)) {
-            return failure("用户名或者密码错误！！！");
+            return Result.failure("用户名或者密码错误！！！");
         }
         one.setPassword(null);
         session.setAttribute("user",one);

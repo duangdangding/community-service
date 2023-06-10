@@ -312,6 +312,8 @@ function closeIframe() {
  * @param o 失败 1,弹出消息2，运行函数3，既弹消息又运行函数
  * @param p 成功 1,弹出消息2，运行函数3，既弹消息又运行函数
  */
+let errorCOde = 500
+let errorCOdeClumn = 'code'
 function jcAjax(u,data,ty,fun,o,p) {
     o = o ? o : 3;
     p = p ? p : 1;
@@ -323,8 +325,8 @@ function jcAjax(u,data,ty,fun,o,p) {
         dataType:'JSON',
         success:function (data) {
             let showMsg = data.data ? data.data : data.msg;
-            let r = data.status === -1 ? o : p;
-            let icon = data.status === -1 ? 5 : 6;
+            let r = data[errorCOdeClumn] === errorCOde ? o : p;
+            let icon = data[errorCOdeClumn] === errorCOde ? 5 : 6;
             jcAjax_result(showMsg,fun,r,icon);
         },
         complete:closeLoad
